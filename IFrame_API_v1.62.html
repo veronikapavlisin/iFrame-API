@@ -1,0 +1,1879 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style>
+body{font-family:Helvetica,Arial,sans-serif;font-size:small;color:#000;background-color:#fff;margin:3px 8px}
+h1,h2,h3,h4,h5,h6{page-break-after:avoid; margin-bottom:0;}
+h1{font-size:160%;font-weight:bold;}
+h2{font-size:110%;font-weight:bold;margin:0 5px 0 -5px;padding:.1em 3px .1em 5px;background-color:#e5ecf9;border-top:1px solid #36C;}
+h3{font-size:120%}
+h4{font-size:110%}
+pre{font-size:9pt;background-color:#fafafa;border:1px solid #bbb;line-height:125%;margin:1em 0 0 0;padding:.99em;overflow:auto;word-wrap:break-word}
+code,pre{font-family:monospace;color:#007000}
+code{font-size:10pt}
+
+hr{border:1px solid;border-color:#36C;margin:1em 0}
+h2 code{font-size:12pt}
+li pre{margin:.5em 0 .6em 0}
+li p,dd p{padding:.5em 0 .6em 0;margin:0}
+ol.alpha{list-style:lower-alpha}
+ol.alphacap{list-style:upper-alpha}
+ol.roman{list-style:lower-roman}
+ol.romancap{list-style:upper-roman}
+ol.termslist{list-style-type:decimal}
+ol.termslist>li>ol{list-style-type:lower-alpha}
+ol.termslist>li>ol>li>ol{list-style-type:lower-roman}
+table,img{page-break-inside:avoid}
+table ol.toc{margin-left:0}
+table{border-collapse:collapse;line-height:125%}
+th,td{text-align:left;vertical-align:top}
+table{margin:1em 0 0 1px;border:1px solid;border-color:#36C;border-spacing:0;border-collapse:collapse;clear:right}
+th{font-weight:bold;text-align:left;padding:6px 12px;border:1px solid #36C;background-color:#e5ecf9; font-size: small}
+td{padding:6px 12px;border:1px solid #36C;background-color:#fff;text-align:left;vertical-align:top; font-size: small}
+td h1,td h2,td h3,td h4,td h5{margin-left:0}
+td ul,td ol{margin:0 0 1em 15px;padding:0}
+td p,td dl{margin:0 0 1em 0;padding:0}
+td *+p{margin:1em 0 0 0;padding:0}
+tr.alt td,td.alt{background:#f5f5f5}
+table.columns{border:none;margin:1em 0 0}
+table.columns td{border:none;padding:0 3em 0 0}
+table.columns td p{margin:1em 0 0 0;padding:0}
+td{padding:6px 12px;border:1px solid #36C;background-color:#fff;text-align:left;vertical-align:top}
+
+.tablelist{margin:0 0 1em 0}
+.listhead li{font-weight:bold}
+.listhead li *,.listhead li li{font-weight:normal}
+.code li{font-family:monospace;font-size:10pt}
+.code li p,.code li li{font-family:Arial,Helvetica,sans-serif}
+li p.note,li p.warning,li p.labswarning,li p.caution{margin:.8em 0 0 0;padding:.2em .5em .2em .9em}
+ol.toc,div.toc ol{margin:1em 0 0 0;padding:0;list-style:none}
+ol.toc li,div.toc ol li{font-weight:bold;margin:.5em 0 0 1.5em;padding:0}
+ol.toc li ol,div.toc ol li ol{margin:0;padding:0}
+ol.toc li ol li,div.toc ol li ol li{padding:0;margin:.1em 0 0 1em;font-weight:normal;list-style:none}
+#pagecontent{width:25cm;margin:0;float:left;border:none;padding:0 0 0 20px !important}
+#pagecontent h2{font-size:130%;font-weight:bold;margin:1.5em 0 0 0}
+#pagecontent h3{font-size:110%;margin:.7em 0 0 0;position:relative;top:.4em}
+#pagecontent h4{font-size:100%;font-weight:bold;margin:.6em 0 0 0;position:relative;top:.4em;z-index:5}
+#pagecontent h5{font-size:100%;font-weight:normal;font-style:italic;text-decoration:underline;margin:.4em 0 0 0;position:relative;top:.4em;z-index:5}
+#pagecontent h1.page_title,#pagecontent h2.page_title{line-height:130%;font-size:170%;margin:0 0 0 -10px;padding:.8em 0 0;border:none;background:none}
+#pagecontent{padding-left:24px;border-left:3px solid #e5ecf9}
+</style>
+</head>
+<body>
+<div style="position: relative;" id="pagecontent">
+    <h1 class="page_title">IFrame XML API Specification</h1>
+<p>This is the specification of remote procedure calls between WL's page in iFrame and partner's top window page.</p>
+
+<h3>Document history</h3>
+<table>
+<tbody>
+<tr>
+    <th>Author</th>
+    <th>Date</th>
+    <th>Version</th>
+    <th>Changes</th>
+</tr>
+<tr>
+    <td>Veronika&nbsp;Pavlisin</td>
+    <td>14.11.2014</td>
+    <td>1.0</td>
+    <td>First version</td>
+</tr>
+<tr>
+    <td>Veronika&nbsp;Pavlisin</td>
+    <td>25.03.2015</td>
+    <td>1.01</td>
+    <td>- tickets parameter added to transaction_ticket_payin call</td>
+</tr>
+<tr>
+    <td>Veronika&nbsp;Pavlisin</td>
+    <td>09.04.2015</td>
+    <td>1.02</td>
+    <td>- additional information (number of winning tips, winning tips, 
+winnings &amp; winning class) added to transaction_ticket_payout call</td>
+</tr>
+<tr>
+    <td>Veronika&nbsp;Pavlisin</td>
+    <td>22.04.2015</td>
+    <td>1.03</td>
+    <td>- additional information (ticket_type, ticket_time, num_tips, 
+tips, bb_bet, num_draws &amp; draws) added to transaction_ticket_payin 
+call<br>
+        - recurring flag added to transaction_ticket_payin and get_transaction_details calls</td>
+</tr>
+<tr>
+    <td>Veronika&nbsp;Pavlisin</td>
+    <td>29.04.2015</td>
+    <td>1.04</td>
+    <td>- <span style="text-decoration:line-through;">call get_transaction_details changed to send_transaction_details</span><br>
+        - tickets removed and debit_key added to transaction_ticket_payin<br>
+        - <span style="text-decoration:line-through;">scenario for purchase updated</span><br>
+        - response for get_account_details extended with country_code and debit_key 
+        </td>
+</tr>
+<tr>
+    <td>Veronika&nbsp;Pavlisin</td>
+    <td>01.05.2015</td>
+    <td>1.1</td>
+    <td>- call get_transaction_details restored<br>
+        - transaction_ticket_payin changed to offline call ('-' used as token)<br>
+        - scenario for purchase updated<br>
+        - error codes 18 and 99 added
+        </td>
+</tr>
+<tr>
+    <td>Veronika&nbsp;Pavlisin</td>
+    <td>20.05.2015</td>
+    <td>1.2</td>
+    <td>- offline call transaction_bonus_payout added<br>
+        - bonus information added to ticket in response to get_payout_transactions call<br>
+        </td>
+</tr>
+<tr>
+    <td>Veronika&nbsp;Pavlisin</td>
+    <td>03.06.2015</td>
+    <td>1.3</td>
+    <td>- response to transaction_bonus_payout updated<br>
+        - interaction scenarios updated<br>
+        </td>
+</tr>
+<tr>
+    <td>Veronika&nbsp;Pavlisin</td>
+    <td>17.06.2015</td>
+    <td>1.35</td>
+    <td>- tickets parameter added to transaction_ticket_payin call <br>
+        - draw_id parameter added to transaction_ticket_payout call <br>
+        - player_id parameter changed from integer to string
+        </td>
+</tr>
+<tr>
+    <td>Veronika&nbsp;Pavlisin</td>
+    <td>09.09.2015</td>
+    <td>1.45</td>
+    <td>- voucher parameter added to transaction_ticket_payin call and to response for get_transaction_details call<br>
+        - new outgoing subscription_renewal_failure call and Subscription renewal scenario added<br>
+        - syndicate ticket added to transaction_ticket_payin call and reply of get_transaction_details call<br>
+        - optional currency tag added to all calls and responses where amount or price is present<br>
+        <!-- - parameters timezone & utc_offset added to ticket_time tag in get_transaction_details response--> 
+        </td>
+</tr>
+<tr>
+    <td>Veronika&nbsp;Pavlisin</td>
+    <td>14.03.2016</td>
+    <td>1.50</td>
+    <td>- get_transaction_details return call documentation fixed (base_tip, num_periods added)<br>
+        - codes for single and syndicate lotteries added to appendix<br>
+    </td>
+</tr>
+<tr>
+    <td>Veronika&nbsp;Pavlisin</td>
+    <td>20.05.2016</td>
+    <td>1.60</td>
+    <td>- transaction_ticket_refund call<br>
+        - transaction_winning_rollback call<br>
+    </td>
+</tr>
+<tr>
+    <td>Veronika&nbsp;Pavlisin</td>
+    <td>02.08.2016</td>
+    <td>1.61</td>
+    <td>error codes 7 and 19 added</td>
+</tr>
+<tr>
+    <td>Veronika&nbsp;Pavlisin</td>
+    <td>21.04.2017</td>
+    <td>1.62</td>
+    <td>is_free subtag added to ticket</td>
+</tr>
+</tbody>
+</table>
+
+
+<h2>Contents</h2>
+<ol class="toc">
+    <li><a href="#desc">General description</a></li>
+    <li><a href="#tokens">Token system</a></li>
+    <li><a href="#security">Security</a></li>
+    <li><a href="#init">Initiating the Iframe</a></li>
+    <li><a href="#incoming">Calls to WL</a></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#incoming.ping">ping</a></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#incoming.get_transaction_details">get_transaction_details</a></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#incoming.get_payout_transactions">get_payout_transactions</a></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#incoming.get_draw_results">get_draw_results</a></li>
+    <li><a href="#outgoing">Calls to partner</a></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#outgoing.request_new_token">request_new_token</a></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#outgoing.refresh_token">refresh_token</a></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#outgoing.get_account_details">get_account_details</a></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#outgoing.get_balance">get_balance</a></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#outgoing.transaction_ticket_payin">transaction_ticket_payin</a></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#outgoing.transaction_ticket_payout">transaction_ticket_payout</a></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#outgoing.transaction_ticket_refund">transaction_ticket_refund</a></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#outgoing.transaction_winning_rollback">transaction_winning_rollback</a></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#outgoing.transaction_bonus_payout">transaction_bonus_payout</a></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#outgoing.draw_finished_notify">draw_finished_notify</a></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#outgoing.subscription_renewal_failure">subscription_renewal_failure</a></li>
+    <li><a href="#scenarios">System interaction scenarios</a></li>
+    <li><a href="#appendix">Appendix</a></li>
+</ol>
+
+
+<h2><a name="desc"></a>General description</h2>
+
+<p>Integration of Kootac Whitelabel game client requires implementation of simple XML-based API described in this document.</p>
+
+<p>
+<b>Parties involved:</b>
+
+</p><ul>
+<li>Player&nbsp;&nbsp;- user registered in partner's system playing at the client machine</li>
+<li>WL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Kootac Whitelabel system that generates webpage shown in iframe</li>
+<li>Partner&nbsp;- partner system that generates webpage with integrated WL iframe</li>
+</ul>
+<p></p>
+
+<p>
+<b>Communication processes:</b>
+
+</p><ol>
+<li>Player logs into partner webpage (optional).</li>
+<li>Partner webpage shows WL webpage in iframe.</li>
+<li>Player interacts with WL webpage in iframe.</li>
+<li>WL and Partner systems interact via API.</li>
+</ol>
+<p></p>
+
+<!--  <p align="center"><img src="IFrame_API_interaction.png"><BR><code>Figure: Interaction of parties involved</code></p> -->
+
+<h2><a name="tokens"></a>Tokens</h2>
+
+<p>On WL webpage initialization partner server generates alphanumeric 
+string called token and passes it to the WL javascript code. This string
+ should meet these requirements:</p>
+
+<ul>
+<li>Contain both letters and digits;</li>
+<li>Be minimum 10 symbols length;</li>
+<li>Be unique for each player;</li>
+<li>Expire after a short period of time (should be configurable, for production at least 10 minutes).</li>
+</ul>
+
+<p><b>Important: each successful API method call refreshes token lifetime.</b></p>
+
+<p>Partner is responsible for implementing token logic. Token correctness is being tested by WL system during testing procedure.</p>
+ 
+<h2><a name="security"></a>Security</h2>
+
+<p>In order to check the validity of the requests and responses, all the
+ xml packets are being signed. Packets contain "signature"  and "time" 
+parameters. Before the request is being proceeded, API should perform 
+validity check of the signature. And perform the validity check of the 
+request creation time. Responses are being signed and checked the same 
+way.</p>
+
+<h3>Time parameter</h3>
+
+<p>All the requests and responses should contain time parameter. It is 
+equal to the number of seconds since Unix Epoch (January 1 1970 00:00:00
+ GMT). During XML packet validation, this value should also be checked. 
+If the time of XML packet creation till this validation is more than 60 
+seconds, this packet is considered to be expired and invalid. The proper
+ error should be returned. </p>
+
+<p><strong>Request example:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;ping&lt;/call&gt;
+    &lt;token&gt;-&lt;/token&gt;
+    &lt;params&gt;&lt;/params&gt;
+    &lt;time&gt;1414832400&lt;/time&gt;
+    &lt;signature&gt;d25678539405393e2f9d90d5451aecf3&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<p><strong>Example of successful response:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;ping&lt;/call&gt;
+    &lt;token&gt;-&lt;/token&gt;
+    &lt;success&gt;1&lt;/success&gt;
+    &lt;error_code&gt;0&lt;/error_code&gt;
+    &lt;error_text&gt;&lt;/error_text&gt;
+    &lt;params&gt;&lt;/params&gt;
+    &lt;time&gt;1414832402&lt;/time&gt;
+    &lt;signature&gt;46061eea1476afba9ec9b38f11a305e7&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<h3>Signature parameter</h3>
+
+<p>Signature is being calculated as MD5 sum of all the parameters and 
+secret key concatenation. Secret key is being generated for each partner
+ personally.</p>
+
+<p>For example we need to sign following request: </p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;get_transaction_details&lt;/call&gt;
+    &lt;token&gt;bbc288ta90a68xyr4e9&lt;/token&gt;
+    &lt;params&gt;
+        &lt;transaction_id&gt;23175&lt;/transaction_id&gt;
+        &lt;player_id&gt;382&lt;/player_id&gt;
+    &lt;/params&gt;
+    &lt;time&gt;1414832450&lt;/time&gt;
+    &lt;signature&gt;cb488c01b2cb157f14f34e3552b5806e&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<ol>
+    <li>Assemble the parameters string (it's important to assemble 
+parameters in precise order) : 
+'callget_transaction_detailstokenbbc288ta90a68xyr4e9transaction_id23175player_id382time1414832450'.
+ Additional parameters (params) are added at the end of this string in 
+the same order as they are in request.</li>
+    <li>Add current partner secret key. We receive the following string:
+ 
+'callget_transaction_detailstokenbbc288ta90a68xyr4e9transaction_id23175player_id382time1414832450XXX_SECRET_KEY_XXX'</li>
+    <li>Calculate MD5 for the received string: cb488c01b2cb157f14f34e3552b5806e</li>
+    <li>Sign request by putting MD5 value into signature tag</li>
+</ol>
+
+<p><b>Important:</b> If parameter's value is a XML string with further 
+nested tags, empty value is used as parameters value instead of this XML
+ string. This is the case for:<br> 
+1. parameter transaction_ticket_payouts in response to <a href="#incoming.get_payout_transactions">get_payout_transactions</a> call,<br>
+2. parameter draw_results in response to <a href="#incoming.get_draw_results">get_draw_results</a> call,<br>
+3. parameter tickets in response to <a href="#incoming.get_transaction_details">get_transaction_details</a> call.</p>
+
+<p>Signature validation is being made in similar way. Important is to leave out signature tag when assemblying parameters string!</p>    
+     
+
+
+<h2><a name="init"></a>Initiating the Iframe</h2>
+
+<p>This is description of initating WL webpage in iframe embeded in partner website.</p>
+
+<p>Following JS code needs to be placed in partner webpage:</p>
+<pre>&lt;!-- Kootac WL iframe --&gt;
+ &lt;script type="text/javascript"&gt; 
+  var _config = _config || [];    
+  _config.push(['server', '&lt;wl_production_server&gt;']);
+  _config.push(['partner', '&lt;partner_code&gt;']);
+  _config.push(['token', '&lt;player_token&gt;']);
+  _config.push(['language', '&lt;language_code&gt;']);
+<!-- _config.push(['timezone', '&lt;timezone_utc&gt;']); -->
+  _config.push(['mobile', '&lt;platform_mobile&gt;']);
+  _config.push(['width', '&lt;width&gt;']);
+  (function(){
+  document.write('&lt;'+'script type="text/javascript" src="&lt;production_server&gt;/.../WLiframe.js"&gt;&lt;'+'/script&gt;');
+  })();
+ &lt;/script&gt;
+ &lt;script type="text/javascript"&gt;KootacWL.frame(_config);&lt;/script&gt;
+ &lt;!-- // --&gt;
+</pre>
+
+<table>
+<tbody>
+<tr><th>Parameter</th><th>Description</th></tr>
+<tr><td><code>&lt;wl_production_server&gt;</code></td><td>Supplied by Kootac developer (e.g. https://ipel.playeurolotto.com).</td></tr>
+<tr><td><code>&lt;partner_code&gt;</code></td><td>Supplied by Kootac developer.</td></tr>
+<tr><td><code>&lt;player_token&gt;</code></td><td>Needs to be replaced with partner's newly generated token for authorized player. For not logged in players token is '-'.</td></tr>
+<tr><td><code>&lt;language_code&gt;</code></td><td>Code of site's 
+language (e.g. 'en' or 'de'). Current list of supported languages 
+contain: english, german, russian, polish, dannish, finnish, swedish, 
+romanian, ukrainian and simplified chinese.</td></tr>
+<!-- <tr><td><code>&lt;timezone_utc&gt;</code></td><td>Timezone UTC (i.e. "0", "2", "3").</td></tr>-->
+<tr><td><code>&lt;platform_mobile&gt;</code></td><td>Optional parameter for showing mobile platform pages if set to 1.</td></tr>
+<tr><td><code>&lt;current_game&gt;</code></td><td>Optional parameter for redirecting to specific game.</td></tr>
+</tbody>
+</table>
+
+<h2><a name="incoming"></a>Calls to WL</h2>
+
+<p>Calls to WL system are performed via supplied API URL's. Partner 
+system sends XML request to WL API URL and receives an answer to its own
+ API URL.</p>
+
+<h2><a name="incoming.ping">Call <code>ping</code></a></h2>
+
+<p>Ping call provides information to partner's system that WL is 
+available. If WL does not respond to ping call, user is informed about 
+service unavailability until communication between partner's and WL 
+systems is established again.</p>
+
+<p><strong>Example request:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;ping&lt;/call&gt;
+    &lt;token&gt;-&lt;/token&gt;
+    &lt;params&gt;&lt;/params&gt;
+    &lt;time&gt;1414832400&lt;/time&gt;
+    &lt;signature&gt;d25678539405393e2f9d90d5451aecf3&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<p>Character - is used instead of token and there are no additional parameters used with ping method.</p>
+
+<p><strong>Example of response:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;ping&lt;/call&gt;
+    &lt;token&gt;-&lt;/token&gt;
+    &lt;success&gt;1&lt;/success&gt;
+    &lt;error_code&gt;0&lt;/error_code&gt;
+    &lt;error_text&gt;&lt;/error_text&gt;
+    &lt;params&gt;&lt;/params&gt;
+    &lt;time&gt;1414832402&lt;/time&gt;
+    &lt;signature&gt;46061eea1476afba9ec9b38f11a305e7&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<p>Positive response to ping contains parameter success with value 1 and error parameter with value 0.</p>
+
+<p><strong>Example of negative response:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;ping&lt;/call&gt;
+    &lt;token&gt;-&lt;/token&gt;
+    &lt;success&gt;0&lt;/success&gt;
+    &lt;error_code&gt;10&lt;/error_code&gt;
+    &lt;error_text&gt;System under maintenance&lt;/error_text&gt;
+    &lt;params&gt;&lt;/params&gt;
+    &lt;time&gt;1414832402&lt;/time&gt;
+    &lt;signature&gt;0a0f5980556603899761fd4552afee42&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<p>Negative response contains parameter success with value 0 and non-zero error parameter.</p>
+
+<br><br>
+
+<h2><a name="incoming.get_transaction_details">Call <code>get_transaction_details</code></a></h2>
+
+<p>Call provides detailed information on ticket.</p>
+
+<p><strong>Example request:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;get_transaction_details&lt;/call&gt;
+    &lt;token&gt;bbc288ta90a68xyr4e9&lt;/token&gt;
+    &lt;params&gt;
+        &lt;transaction_id&gt;23175&lt;/transaction_id&gt;
+        &lt;player_id&gt;382&lt;/player_id&gt;
+    &lt;/params&gt;
+    &lt;time&gt;1414832450&lt;/time&gt;
+    &lt;signature&gt;0cea4e166c4a64fd0a0073fefb71890a&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<table>
+<tbody>
+<tr><th>Parameter</th><th>Format</th><th>Description</th></tr>
+<tr><td><code>&lt;transaction_id&gt;</code></td><td>integer</td><td>Identifier
+ of payin transaction in WL system. Transaction can be either payout or 
+payin and it is associated with exactly one ticket. Payin transaction is
+ supplied by WL system in <code>transaction_ticket_payin</code> call.</td></tr>
+<tr><td><code>&lt;player_id&gt;</code></td><td>string</td><td>Identifier of player in partner system. It is supplied by <code>get_account_details</code> call.</td></tr>
+</tbody>
+</table>
+
+<p><strong>Example of response:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;get_transaction_details&lt;/call&gt;
+    &lt;token&gt;bbc288ta90a68xyr4e9&lt;/token&gt;
+    &lt;success&gt;1&lt;/success&gt;
+    &lt;error_code&gt;0&lt;/error_code&gt;
+    &lt;error_text&gt;&lt;/error_text&gt;
+    &lt;params&gt;
+        &lt;transaction_id&gt;23175&lt;/transaction_id&gt;
+        &lt;player_id&gt;382&lt;/player_id&gt;
+        &lt;amount&gt;7260&lt;/amount&gt;
+        &lt;currency&gt;eur&lt;/currency&gt;
+        &lt;tickets&gt;
+            &lt;ticket&gt;
+                &lt;ticket_id&gt;48320&lt;/ticket_id&gt;
+                &lt;ticket_type&gt;single&lt;/ticket_type&gt;
+                &lt;ticket_time&gt;1414832422&lt;/ticket_time&gt;
+                &lt;lottery_code&gt;em&lt;/lottery_code&gt;
+                &lt;num_tips&gt;2&lt;/num_tips&gt;
+                &lt;tips&gt;
+                    &lt;tip&gt;1,2,3,4,5,1,2,0,0,0&lt;/tip&gt;
+                    &lt;tip&gt;11,12,13,14,15,3,4,11,12,13&lt;/tip&gt;
+                &lt;/tips&gt;
+                &lt;bb_bet&gt;100&lt;/bb_bet&gt;
+                &lt;num_draws&gt;2&lt;/num_draws&gt;
+                &lt;draws&gt;
+                    &lt;draw id="348295"&gt;2014-11-18&lt;/draw&gt;
+                    &lt;draw id="348296"&gt;2014-11-21&lt;/draw&gt;
+                &lt;/draws&gt;
+                &lt;recurring&gt;0&lt;/recurring&gt;
+                &lt;price&gt;500&lt;/price&gt;
+                &lt;currency&gt;eur&lt;/currency&gt;
+            &lt;/ticket&gt;
+            &lt;ticket&gt;
+                &lt;ticket_id&gt;48321&lt;/ticket_id&gt;
+                &lt;ticket_type&gt;single&lt;/ticket_type&gt;
+                &lt;ticket_time&gt;1414832422&lt;/ticket_time&gt;
+                &lt;lottery_code&gt;ej&lt;/lottery_code&gt;
+                &lt;num_tips&gt;1&lt;/num_tips&gt;
+                &lt;tips&gt;
+                    &lt;tip&gt;21,22,23,24,25,1,2,0,0,0&lt;/tip&gt;
+                &lt;/tips&gt;
+                &lt;bb_bet&gt;0&lt;/bb_bet&gt;
+                &lt;num_draws&gt;1&lt;/num_draws&gt;
+                &lt;draws&gt;
+                    &lt;draw id="348297"&gt;2014-11-21&lt;/draw&gt;
+                &lt;/draws&gt;
+                &lt;recurring&gt;0&lt;/recurring&gt;
+                &lt;price&gt;500&lt;/price&gt;
+                &lt;currency&gt;eur&lt;/currency&gt;
+            &lt;/ticket&gt;
+            &lt;ticket&gt;
+                &lt;ticket_id&gt;48322&lt;/ticket_id&gt;
+                &lt;ticket_type&gt;syndicate&lt;/ticket_type&gt;
+                &lt;ticket_time&gt;1414832422&lt;/ticket_time&gt;
+                &lt;lottery_code&gt;syn_vw&lt;/lottery_code&gt;
+                &lt;num_tips&gt;530&lt;/num_tips&gt;
+                &lt;base_tip&gt;21,22,23,24,25,44,0&lt;/base_tip&gt;
+                &lt;num_periods&gt;4&lt;/num_periods&gt;
+                &lt;num_draws&gt;48&lt;/num_draws&gt;
+                &lt;draws&gt;
+                    &lt;draw lottery_code="em" id="348297"&gt;2014-11-21&lt;/draw&gt;
+                    &lt;draw lottery_code="ej" id="348298"&gt;2014-11-21&lt;/draw&gt;
+                    &lt;draw lottery_code="mm" id="348299"&gt;2014-11-22&lt;/draw&gt;
+                    &lt;draw lottery_code="se" id="348300"&gt;2014-11-22&lt;/draw&gt;
+                    &lt;draw lottery_code="de" id="348301"&gt;2014-11-22&lt;/draw&gt;
+                    &lt;draw lottery_code="pb" id="348302"&gt;2014-11-23&lt;/draw&gt;
+                    &lt;draw lottery_code="em" id="348303"&gt;2014-11-25&lt;/draw&gt;
+                    &lt;draw lottery_code="se" id="348304"&gt;2014-11-25&lt;/draw&gt;
+                    &lt;draw lottery_code="mm" id="348305"&gt;2014-11-26&lt;/draw&gt;
+                    &lt;draw lottery_code="de" id="348306"&gt;2014-11-26&lt;/draw&gt;
+                    &lt;draw lottery_code="pb" id="348307"&gt;2014-11-27&lt;/draw&gt;
+                    &lt;draw lottery_code="se" id="348308"&gt;2014-11-27&lt;/draw&gt;
+                    ......
+                    ......
+                &lt;/draws&gt;
+                &lt;recurring&gt;1&lt;/recurring&gt;
+                &lt;price&gt;6360&lt;/price&gt;
+                &lt;currency&gt;eur&lt;/currency&gt;
+            &lt;/ticket&gt;
+            &lt;ticket&gt;
+                &lt;ticket_id&gt;48323&lt;/ticket_id&gt;
+                &lt;ticket_type&gt;single&lt;/ticket_type&gt;
+                &lt;ticket_time&gt;1414832422&lt;/ticket_time&gt;
+                &lt;lottery_code&gt;mm&lt;/lottery_code&gt;
+                &lt;num_tips&gt;1&lt;/num_tips&gt;
+                &lt;tips&gt;
+                    &lt;tip&gt;31,32,33,34,35,6,0,0,0,0&lt;/tip&gt;
+                &lt;/tips&gt;
+                &lt;bb_bet&gt;0&lt;/bb_bet&gt;
+                &lt;num_draws&gt;1&lt;/num_draws&gt;
+                &lt;draws&gt;
+                    &lt;draw id="348299"&gt;2014-11-22&lt;/draw&gt;
+                &lt;/draws&gt;
+                &lt;recurring&gt;0&lt;/recurring&gt;
+                &lt;price&gt;500&lt;/price&gt;
+                &lt;currency&gt;eur&lt;/currency&gt;
+                &lt;is_free&gt;1&lt;/is_free&gt;
+            &lt;/ticket&gt;
+        &lt;/tickets&gt;
+        &lt;voucher code="FREE1"&gt;100&lt;/voucher&gt;
+    &lt;/params&gt;
+    &lt;time&gt;1414832452&lt;/time&gt;
+    &lt;signature&gt;dfcef4887f1c925eece58354827489bd&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<table>
+<tbody>
+<tr><th>Parameter</th><th>Format</th><th>Description</th></tr>
+<tr><td><code>&lt;transaction_id&gt;</code></td><td>integer</td><td>Identifier of payin transaction in WL system that was sent as input parameter.</td></tr>
+<tr><td><code>&lt;player_id&gt;</code></td><td>string</td><td>Identifier of player in partner system that was sent as input parameter.</td></tr>
+<tr><td><code>&lt;amount&gt;</code></td><td>integer</td><td>Amount to be withdrawn from account. <b>Amount is in cents. Amount = sum of ticket prices - voucher amount.</b><br>Price of any free ticket purchased within transaction does not add into amount.</td></tr>
+<tr><td><code>&lt;currency&gt;</code></td><td>string</td><td>Optional 
+parameter. Currency of amount to be withdrawn from account. Currency has
+ to be the same as player's currency. If currency is not included, 
+amount is in EUR.</td></tr>
+<tr><td><code>&lt;tickets&gt;</code></td><td>string</td><td>Optional parameter. XML structure that contains set of tickets, where each ticket contains following subtags:<br>
+<blockquote>
+<ul>
+<li><b>ticket_id</b><br>Identifier of ticket in WL system.<br></li>
+<li><b>ticket_type</b><br>Type of ticket can be either single or syndicate.<br></li>
+<li><b>ticket_time</b><br>UNIX timestamp of ticket purchase. <!-- Parameters timezone and utc_offset specify timezone of the timestamp. --><br></li>
+<li><b>lottery_code</b><br>Lottery code in WL system that was sent as input parameter.<br></li>
+<li><b>num_tips</b><br>Number of tips in ticket.<br></li>
+<li><b>tips</b><br>Set of tip subtags where each contain list of numbers
+ separated by comma represents 1 to N tips for single lottery. If 
+Booster ball was bet on a tip, last three numbers of tip are not zeros.<br></li>
+<li><b>bb_bet</b><br>Amount of Booster ball bet for whole ticket (in 
+cents). Value 0 is set if booster ball was not bet (last three numbers 
+in all ticket's tips are zeros).<br></li>
+<li><b>base_tip</b><br>Base tip for syndicate lottery represented by list of numbers separated by comma.<br></li>
+<li><b>num_periods</b><br>Number of periods (weeks) that syndicate ticket is subscribed for.<br></li>
+<li><b>num_draws</b><br>Number of draws for the ticket. num_draws = num_periods * (sum of draws for all lotteries in syndicate in one week))<br></li>
+<li><b>draws</b><br>Set of draw subtags where each is identified by id 
+parameter and contain corresponding draw date. Parameter lottery_code is
+ added in case of syndicate ticket.<br></li>
+<li><b>recurring</b><br>Subscription flag.<br></li>
+<li><b>price</b><br>Price of ticket.<br></li>
+<li><b>currency</b><br>Optional parameter. Currency of ticket's price. 
+Currency has to be the same as player's currency. If currency is not 
+included, price is in EUR.<br></li>
+<li><b>is_free</b><br>Optional parameter. Flag's value of 1 represents 
+free ticket. Ticket still contains valid price and possibly also booster
+ ball bet, but these are illustrational and are not counted as part of 
+overall amount paid for transaction.<br></li>
+</ul>
+</blockquote>
+
+</td></tr>
+<tr><td><code>&lt;voucher&gt;</code></td><td>integer</td><td>Optional 
+parameter. Contains amount of voucher used with payment together with 
+voucher code as attribute. Currency is the same as for amount.</td></tr>
+</tbody>
+</table>
+
+<br><br>
+
+<h2><a name="incoming.get_payout_transactions">Call <code>get_payout_transactions</code></a></h2>
+
+<p>Call provides XML structure of transaction payouts (both winning and non-winning). Partner should perform this call after <code>draw_finished_notify</code> call was received from WL.</p>
+
+<p><strong>Example request:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;get_payout_transactions&lt;/call&gt;
+    &lt;token&gt;-&lt;/token&gt;
+    &lt;params&gt;
+        &lt;draw_id&gt;348295&lt;/draw_id&gt;
+    &lt;/params&gt;
+    &lt;time&gt;1416346220&lt;/time&gt;
+    &lt;signature&gt;061e5467257a3d525e57f86db34b5562&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<p>Character - is used instead of token.</p>
+
+<table>
+<tbody>
+<tr><th>Parameter</th><th>Format</th><th>Description</th></tr>
+<tr><td><code>&lt;draw_id&gt;</code></td><td>integer</td><td>Identifier of draw (for specific lottery at specific date) in WL system.</td></tr>
+</tbody>
+</table>
+
+
+<p><strong>Example of response:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;get_payout_transactions&lt;/call&gt;
+    &lt;token&gt;-&lt;/token&gt;
+    &lt;success&gt;1&lt;/success&gt;
+    &lt;error_code&gt;0&lt;/error_code&gt;
+    &lt;error_text&gt;&lt;/error_text&gt;
+    &lt;params&gt;
+        &lt;draw_id&gt;348295&lt;/draw_id&gt;
+        &lt;transaction_ticket_payouts&gt;
+            &lt;transaction_ticket_payout&gt;
+                &lt;transacton_id&gt;382-43175&lt;/transacton_id&gt;
+                &lt;player_id&gt;382&lt;/player_id&gt;
+                &lt;ticket_id&gt;48320&lt;/ticket_id&gt;
+                &lt;amount&gt;440&lt;/amount&gt;
+                &lt;currency&gt;eur&lt;/currency&gt;
+                &lt;num_winning_tips&gt;1&lt;/num_tips&gt;
+                &lt;tip1&gt;1,2,31,4,5,1,2,0,0,0&lt;/tip1&gt;
+                &lt;tip1_winning&gt;440&lt;/tip1_winning&gt;
+                &lt;tip1_winning_currency&gt;eur&lt;/tip1_winning_currency&gt;
+                &lt;class1_winning&gt;2+0&lt;/class1_winning&gt;
+            &lt;/transaction_ticket_payout&gt;        
+            &lt;transaction_ticket_payout&gt;
+                &lt;transacton_id&gt;382-0&lt;/transacton_id&gt;
+                &lt;player_id&gt;382&lt;/player_id&gt;
+                &lt;ticket_id&gt;48321&lt;/ticket_id&gt;
+                &lt;amount&gt;0&lt;/amount&gt;
+                &lt;currency&gt;eur&lt;/currency&gt;
+                &lt;bonus type="1" id="4518"&gt;440&lt;/bonus&gt;
+                &lt;bonus_currency&gt;eur&lt;/bonus_currency&gt;
+                &lt;num_winning_tips&gt;0&lt;/num_tips&gt;
+            &lt;/transaction_ticket_payout&gt;        
+            &lt;transaction_ticket_payout&gt;
+                &lt;transacton_id&gt;382-0&lt;/transacton_id&gt;
+                &lt;player_id&gt;382&lt;/player_id&gt;
+                &lt;ticket_id&gt;48322&lt;/ticket_id&gt;
+                &lt;amount&gt;104400&lt;/amount&gt;
+                &lt;currency&gt;eur&lt;/currency&gt;
+                &lt;num_winning_tips&gt;2&lt;/num_tips&gt;
+                &lt;tip1&gt;1,2,3,4,5,1,2,1,2,3&lt;/tip1&gt;
+                &lt;tip1_winning&gt;4400&lt;/tip1_winning&gt;
+                &lt;tip1_winning_currency&gt;eur&lt;/tip1_winning_currency&gt;
+                &lt;class1_winning&gt;3+0&lt;/class1_winning&gt;
+                &lt;tip2&gt;1,2,3,4,5,1,2,1,2,3&lt;/tip1&gt;
+                &lt;tip2_winning&gt;100000&lt;/tip1_winning&gt;
+                &lt;tip2_winning_currency&gt;eur&lt;/tip2_winning_currency&gt;
+                &lt;class2_winning&gt;bb&lt;/class1_winning&gt;
+            &lt;/transaction_ticket_payout&gt;        
+        &lt;/transaction_ticket_payouts&gt;
+    &lt;/params&gt;
+    &lt;time&gt;1416346223&lt;/time&gt;
+    &lt;signature&gt;943108c0939928e6afd4c6c3966e49d4&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<table>
+<tbody>
+<tr><th>Parameter</th><th>Format</th><th>Description</th></tr>
+<tr><td><code>&lt;draw_id&gt;</code></td><td>integer</td><td>Identifier of draw (for specific lottery at specific date) in WL system.</td></tr>
+<tr><td><code>&lt;transaction_ticket_payouts&gt;</code></td><td>string</td><td>XML structure that contains list of <code>transaction_ticket_payout</code> records with following tags:<br>
+<blockquote>
+<ul>
+<li><b>transacton_id</b><br>Identifier of payout transaction in following format: <br>
+                        <code>{player_id}-{transaction_id}</code> if transaction is winning <br>
+                        <code>{player_id}-0</code> if transaction is not winning (ammount is 0)<br>
+</li>
+<li><b>player_id</b><br>Identifier of player in partner's system.<br>
+</li>
+<li><b>ticket_id</b><br>Identifier of ticket in WL system.<br>
+</li>
+<li><b>amount</b><br>Winning amount of the ticket.<br>
+</li>
+<li><b>currency</b>(optional)<br>Currency of winning amount. Currency 
+has to be the same as player's currency. If currency is not included, 
+winning amount is in EUR.<br>
+</li>
+<li><b>bonus</b>(optional)<br>Bonus amount related to ticket (e.g. 
+Welcome bonus related to 1st non-winning ticket). Attribute id is a 
+unique identifier of awarded bonus. Attribute type contains identifier 
+of bonus type (e.g. 1 stands for Welcome bonus).<br>
+</li>
+<li><b>bonus_currency</b>(optional)<br>Currency of awarded bonus amount. If currency is not included, bonus amount is in EUR.<br>
+</li>
+<li><b>num_winning_tips</b><br>Number of winning tips in ticket.<br>
+</li>
+<li><b>tip{N}</b><br>List of numbers of N-th tip divided by comma. In 
+list, basic numbers (5 or 6) are followed by star numbers (1 or 2) and 3
+ booster ball numbers.<br>
+</li>
+<li><b>tip{N}_winning</b><br>Winning of N-th tip in the ticket (in cents). Non-winning tips are not shown.<br>
+</li>
+<li><b>tip{N}_winning_currency</b>(optional)<br>Currency of winning. If currency is not included, winning is in EUR.<br>
+</li>
+<li><b>class{N}_winning</b><br>Winning class of N-th tip in the ticket. If ticket won booster ball bet, class will contain value "bb".<br>
+</li>
+</ul>
+</blockquote>
+
+</td></tr>
+</tbody>
+</table>
+
+<p><b>Important: Call returns details of winning and non-winning tickets
+ and does not represent any winning transaction! Winning can be paid on 
+basis of <a href="#outgoing.transaction_ticket_payout">transaction_ticket_payout</a> call only.</b></p>
+
+<p>Although bonus ammount is returned within information about a ticket,
+ depending on bonus type it might not be bound only to a ticket. That 
+means that same ticket might/not contain information on bonus after 
+different draws. 
+E.g. welcome bonus for first bought ticket that participates in more 
+than one draw will be awarded after that ticket did not win in first 
+draw, but won't be awarded in any other draw/s.</p>
+
+<h2><a name="incoming.get_draw_results">Call <code>get_draw_results</code></a></h2>
+
+<p>Call provides XML structure of lottery results from WL system.</p>
+
+<p><strong>Example request:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;get_draw_results&lt;/call&gt;
+    &lt;token&gt;-&lt;/token&gt;
+    &lt;params&gt;
+        &lt;draw_id&gt;348295&lt;/draw_id&gt;
+    &lt;/params&gt;
+    &lt;time&gt;1416393000&lt;/time&gt;
+    &lt;signature&gt;f6287e898c1e350de8d595db8cb8717e&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<p>Character - is used instead of token.</p>
+
+<table>
+<tbody>
+<tr><th>Parameter</th><th>Format</th><th>Description</th></tr>
+<tr><td><code>&lt;draw_id&gt;</code></td><td>integer</td><td>Identifier of draw (for specific lottery at specific date) in WL system.</td></tr>
+</tbody>
+</table>
+
+<p><strong>Example response:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;get_draw_results&lt;/call&gt;
+    &lt;token&gt;-&lt;/token&gt;
+    &lt;success&gt;1&lt;/success&gt;
+    &lt;error_code&gt;0&lt;/error_code&gt;
+    &lt;error_text&gt;&lt;/error_text&gt;
+    &lt;params&gt;
+        &lt;draw_id&gt;348295&lt;/draw_id&gt;
+        &lt;draw_results&gt;
+            &lt;jackpot&gt;4900000000&lt;/jackpot&gt;
+            &lt;numbers&gt;11,12,13,14,15,5,4&lt;/numbers&gt;
+            &lt;prizes&gt;
+                &lt;class match="5+2" division="1"&gt;0&lt;/class&gt;
+                &lt;class match="5+1" division="2"&gt;15589390&lt;/class&gt;
+                &lt;class match="5+0" division="3"&gt;3306840&lt;/class&gt;
+                &lt;class match="4+2" division="4"&gt;413350&lt;/class&gt;
+                &lt;class match="4+1" division="5"&gt;16220&lt;/class&gt;
+                &lt;class match="4+0" division="6"&gt;6680&lt;/class&gt;
+                &lt;class match="3+2" division="7"&gt;7020&lt;/class&gt;
+                &lt;class match="3+1" division="8"&gt;1240&lt;/class&gt;
+                &lt;class match="3+0" division="9"&gt;860&lt;/class&gt;
+                &lt;class match="2+2" division="10"&gt;2330&lt;/class&gt;
+                &lt;class match="2+1" division="11"&gt;760&lt;/class&gt;
+                &lt;class match="1+2" division="12"&gt;1320&lt;/class&gt;
+                &lt;class match="2+0" division="13"&gt;330&lt;/class&gt;
+            &lt;/prizes&gt;
+            &lt;currency&gt;eur&lt;/currency&gt;
+        &lt;/draw_results&gt;
+    &lt;/params&gt;
+    &lt;time&gt;1416393002&lt;/time&gt;
+    &lt;signature&gt;&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<table>
+<tbody>
+<tr><th>Parameter</th><th>Format</th><th>Description</th></tr>
+<tr><td><code>&lt;draw_id&gt;</code></td><td>integer</td><td>Identifier of the draw in WL system.</td></tr>
+<tr><td><code>&lt;draw_results&gt;</code></td><td>string</td><td>XML structure that contains requested draw's results within following tags:<br>
+<blockquote>
+<ul>
+<li><b>jackpot</b><br>Jackpot for the draw (in cents)
+</li>
+<li><b>numbers</b><br>List of winning numbers in the draw separated by 
+comma. Last one or two numbers (depending on setting of lottery) are the
+ star numbers.<br>
+</li>
+<li><b>prizes</b><br>Set of winning classes with winning sum and number 
+of matched numbers + matched star numbers (match parameter). Classes are
+ also numerically ordered (division parameter).<br>
+</li>
+<li><b>currency</b>(optional)<br>Currency of winning classes sums is always set to euro (code <code>eur</code>). If currency is not included, sums are in EUR.<br>
+</li>
+</ul>
+</blockquote>
+
+</td></tr>
+</tbody>
+</table>
+
+
+<br><br>
+
+<h2><a name="outgoing"></a>Calls to partner</h2>
+
+<p>Calls to partner system are performed via supplied API URL's. WL 
+system sends XML request to partner API URL and receives an answer to 
+its own API URL.</p>
+
+<h2><a name="outgoing.request_new_token">Call <code>request_new_token</code></a></h2>
+
+<p>Request_new_token is called to obtain new token after it becomes invalid. <b>CURRENTLY NOT USED - OBSOLETE</b></p>
+
+<p><strong>Example request:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;request_new_token&lt;/call&gt;
+    &lt;token&gt;bbc288ta90a68xyr4e9&lt;/token&gt;
+    &lt;params&gt;&lt;/params&gt;
+    &lt;time&gt;1416393050&lt;/time&gt;
+    &lt;signature&gt;f6287e898c1e350de8d595db8cb8717e&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<p><strong>Example of response:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;request_new_token&lt;/call&gt;
+    &lt;token&gt;bbc288ta90a68xyr4e9&lt;/token&gt;
+    &lt;success&gt;1&lt;/success&gt;
+    &lt;error_code&gt;0&lt;/error_code&gt;
+    &lt;error_text&gt;&lt;/error_text&gt;
+    &lt;params&gt;
+        &lt;new_token&gt;aab177rb81b79zte5w0&lt;/new_token&gt;
+    &lt;/params&gt;
+    &lt;time&gt;1416393052&lt;/time&gt;
+    &lt;signature&gt;03e02ddba90df8c68bf6140275d24ebc&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<table>
+<tbody>
+<tr><th>Parameter</th><th>Format</th><th>Description</th></tr>
+<tr><td><code>&lt;new_token&gt;</code></td><td>string</td><td>Token used for authenticated communication.</td></tr>
+</tbody>
+</table>
+
+<p>Identity of player logged in partner system needs to be confirmed 
+after new token is received. Therefore WL system should perform <a href="#outgoing.get_account_details">get_account_details</a> call after receiving a new token.</p>
+
+<h2><a name="outgoing.refresh_token">Call <code>refresh_token</code></a></h2>
+
+<p>Refresh_token is called to refresh current token's lifetime. It is 
+used when player is idle and there are no calls that would refresh it.</p>
+
+<p><strong>Example request:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;refresh_token&lt;/call&gt;
+    &lt;token&gt;bbc288ta90a68xyr4e9&lt;/token&gt;
+    &lt;params&gt;&lt;/params&gt;
+    &lt;time&gt;1416393080&lt;/time&gt;
+    &lt;signature&gt;7731664e42e8aaf48fb9b99d6d703c0e&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<p><strong>Example of response:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;refresh_token&lt;/call&gt;
+    &lt;token&gt;bbc288ta90a68xyr4e9&lt;/token&gt;
+    &lt;success&gt;1&lt;/success&gt;
+    &lt;error_code&gt;0&lt;/error_code&gt;
+    &lt;error_text&gt;&lt;/error_text&gt;
+    &lt;params&gt;&lt;/params&gt;
+    &lt;time&gt;1416393082&lt;/time&gt;
+    &lt;signature&gt;089e3c59c9afcc7ac026d8cf1e54f79e&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<p>In case of failure (token was not recognized on partner's side), token will become invalid and <a href="#outgoing.request_new_token">request_new_token</a> call or reload of page with new token should follow.</p>
+
+<h2><a name="outgoing.get_account_details">Call <code>get_account_details</code></a></h2>
+
+<p>Get_account_details is called to obtain id and other information on player currently logged into partner's site.</p>
+
+<p><strong>Example request:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;get_account_details&lt;/call&gt;
+    &lt;token&gt;bbc288ta90a68xyr4e9&lt;/token&gt;
+    &lt;params&gt;
+        &lt;force_login&gt;0&lt;/force_login&gt;
+    &lt;/params&gt;
+    &lt;time&gt;1416393001&lt;/time&gt;
+    &lt;signature&gt;baaa58a4dd27a6514bb3e1f6ca36183a&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<table>
+<tbody>
+<tr><th>Parameter</th><th>Format</th><th>Description</th></tr>
+<tr><td><code>&lt;force_login&gt;</code></td><td>boolean</td><td>If parameter is set to to value 1, WL system requires player to be logged and valid player_id is required to be returned.</td></tr>
+</tbody>
+</table>
+
+<p><strong>Example of response:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;get_account_details&lt;/call&gt;
+    &lt;token&gt;bbc288ta90a68xyr4e9&lt;/token&gt;
+    &lt;success&gt;1&lt;/success&gt;
+    &lt;error_code&gt;0&lt;/error_code&gt;
+    &lt;error_text&gt;&lt;/error_text&gt;
+    &lt;params&gt;
+        &lt;player_id&gt;111&lt;/player_id&gt;
+        &lt;player_name&gt;John Smith&lt;/player_name&gt;
+        &lt;player_currency&gt;eur&lt;/player_currency&gt;
+        &lt;player_info&gt;Valleta, MT&lt;/player_info&gt;
+        &lt;player_country_code&gt;MT&lt;/player_country_code&gt;
+        &lt;debit_key&gt;f4f96f323bcbc12a507a71bec0e52cdb&lt;/debit_key&gt;
+    &lt;/params&gt;
+    &lt;time&gt;1416393003&lt;/time&gt;
+    &lt;signature&gt;92aa3b4f81debe83165c2119eab86fa1&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<table>
+<tbody>
+<tr><th>Parameter</th><th>Format</th><th>Description</th></tr>
+<tr><td><code>&lt;player_id&gt;</code></td><td>string</td><td>Valid player's identifier in partner system. PLayer is logged to partner site at the time of responding to a call.</td></tr>
+<tr><td><code>&lt;player_name&gt;</code></td><td>string</td><td>Name of player logged in partner site.</td></tr>
+<tr><td><code>&lt;player_currency&gt;</code></td><td>string</td><td>Currency
+ of player logged in partner site. This currency will be used for all 
+amounts/prices in calls related to player or his transactions/tickets. 
+If not agreed differently, euro (code <code>eur</code>) is the default used currency.</td></tr>
+<tr><td><code>&lt;player_info&gt;</code></td><td>string</td><td>Information on player logged in partner site.</td></tr>
+<tr><td><code>&lt;player_country_code&gt;</code></td><td>string</td><td>ISO-Code of player's country.</td></tr>
+<tr><td><code>&lt;debit_key&gt;</code></td><td>string</td><td>Debit key is send within transaction_ticket_payin call to authenticate order.</td></tr>
+</tbody>
+</table>
+
+<p>If player_id is not returned (no player is logged in partner system) WL page in iframe shows public pages only.</p>
+
+<p>If player_id is returned, <a href="#outgoing.get_balance">get_balance</a> call shall be performed.</p>
+
+<p>Debit key is a hash of string that identifies player on partner's 
+side and is only known to partner. Debit key is saved on WL's side and 
+send within transaction_ticket_payin call to authorize payment. In case 
+of compromising WL's server, attacker will not be able to send fake 
+payments.</p>
+
+<h2><a name="outgoing.get_balance">Call <code>get_balance</code></a></h2>
+
+<p>Get_balance is called to obtain information on balance of player logged in partner site.</p>
+
+<p><strong>Example request:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;get_balance&lt;/call&gt;
+    &lt;token&gt;bbc288ta90a68xyr4e9&lt;/token&gt;
+    &lt;params&gt;&lt;/params&gt;
+    &lt;time&gt;1416393004&lt;/time&gt;
+    &lt;signature&gt;f41f7bcc47e86644f6f0193a82d8383b&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<p><strong>Example of response:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;get_balance&lt;/call&gt;
+    &lt;token&gt;bbc288ta90a68xyr4e9&lt;/token&gt;
+    &lt;success&gt;1&lt;/success&gt;
+    &lt;error_code&gt;0&lt;/error_code&gt;
+    &lt;error_text&gt;&lt;/error_text&gt;
+    &lt;params&gt;
+        &lt;player_id&gt;111&lt;/player_id&gt;
+        &lt;player_balance&gt;25010&lt;/player_balance&gt;
+        &lt;player_currency&gt;eur&lt;/player_currency&gt;
+    &lt;/params&gt;
+    &lt;time&gt;1416393005&lt;/time&gt;
+    &lt;signature&gt;181913faf379691e30cefaf8ac344c54&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<table>
+<tbody>
+<tr><th>Parameter</th><th>Format</th><th>Description</th></tr>
+<tr><td><code>&lt;player_id&gt;</code></td><td>string</td><td>Valid player's identifier in partner system.</td></tr>
+<tr><td><code>&lt;player_balance&gt;</code></td><td>integer</td><td>Actual logged player's balance (in cents).</td></tr>
+</tbody>
+</table>
+
+<p>If returned player_id is different from one stored in WL's session:<br>
+1. error code "unauthorized player" should be returned,<br>
+2. token will be considered invalid,<br>
+3. player_id will be removed from WL session,<br>
+4. <a href="#outgoing.request_new_token">request_new_token</a> call or reload of page with new token should follow to reestablish authorized communication.</p>
+
+<h2><a name="outgoing.transaction_ticket_payin">Call <code>transaction_ticket_payin</code></a></h2>
+
+<p>Transaction_ticket_payin is called to withdraw funds from player's 
+account when purchasing tickets. If insufficient funds are allocated on 
+player's account, error is returned in partner's response.</p>
+
+<p><strong>Example request:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;transaction_ticket_payin&lt;/call&gt;
+    &lt;token&gt;-&lt;/token&gt;
+    &lt;params&gt;
+        &lt;amount&gt;2340&lt;/amount&gt;
+        &lt;currency&gt;eur&lt;/currency&gt;
+        &lt;transaction_id&gt;23175&lt;/transaction_id&gt;
+        &lt;tickets&gt;
+            &lt;ticket&gt;
+                &lt;ticket_type&gt;single&lt;/ticket_type&gt;
+                &lt;lottery_code&gt;em&lt;/lottery_code&gt;
+                &lt;num_tips&gt;2&lt;/num_tips&gt;
+                &lt;tips&gt;
+                    &lt;tip&gt;1,2,3,4,5,1,2,0,0,0&lt;/tip&gt;
+                    &lt;tip&gt;11,12,13,14,15,3,4,11,12,13&lt;/tip&gt;
+                &lt;/tips&gt;
+                &lt;bb_bet&gt;100&lt;/bb_bet&gt;
+                &lt;num_draws&gt;2&lt;/num_draws&gt;
+                &lt;draws&gt;
+                    &lt;draw id="348295"&gt;2014-11-18&lt;/draw&gt;
+                    &lt;draw id="348296"&gt;2014-11-21&lt;/draw&gt;
+                &lt;/draws&gt;
+                &lt;recurring&gt;0&lt;/recurring&gt;
+                &lt;price&gt;500&lt;/price&gt;
+                &lt;currency&gt;eur&lt;/currency&gt;
+            &lt;/ticket&gt;
+            &lt;ticket&gt;
+                &lt;ticket_type&gt;single&lt;/ticket_type&gt;
+                &lt;lottery_code&gt;ej&lt;/lottery_code&gt;
+                &lt;num_tips&gt;1&lt;/num_tips&gt;
+                &lt;tips&gt;
+                    &lt;tip&gt;21,22,23,24,25,1,2,0,0,0&lt;/tip&gt;
+                &lt;/tips&gt;
+                &lt;bb_bet&gt;0&lt;/bb_bet&gt;
+                &lt;num_draws&gt;1&lt;/num_draws&gt;
+                &lt;draws&gt;
+                    &lt;draw id="348297"&gt;2014-11-21&lt;/draw&gt;
+                &lt;/draws&gt;
+                &lt;recurring&gt;0&lt;/recurring&gt;
+                &lt;price&gt;500&lt;/price&gt;
+                &lt;currency&gt;eur&lt;/currency&gt;
+            &lt;/ticket&gt;
+            &lt;ticket&gt;
+                &lt;ticket_type&gt;syndicate&lt;/ticket_type&gt;
+                &lt;lottery_code&gt;syn_vw&lt;/lottery_code&gt;
+                &lt;num_tips&gt;530&lt;/num_tips&gt;
+                &lt;base_tip&gt;21,22,23,24,25,44,0&lt;/base_tip&gt;
+                &lt;num_periods&gt;4&lt;/num_periods&gt;
+                &lt;num_draws&gt;48&lt;/num_draws&gt;
+                &lt;recurring&gt;1&lt;/recurring&gt;
+                &lt;price&gt;6360&lt;/price&gt;
+                &lt;currency&gt;eur&lt;/currency&gt;
+            &lt;/ticket&gt;
+        &lt;/tickets&gt;
+        &lt;voucher code="FREE1"&gt;100&lt;/voucher&gt;
+        &lt;debit_key&gt;f4f96f323bcbc12a507a71bec0e52cdb&lt;/debit_key&gt;
+        &lt;retrying&gt;0&lt;/retrying&gt;
+    &lt;/params&gt;
+    &lt;time&gt;1416393020&lt;/time&gt;
+    &lt;signature&gt;b80a4ece577a01bacfe00b7a460450af&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<table>
+<tbody>
+<tr><th>Parameter</th><th>Format</th><th>Description</th></tr>
+<tr><td><code>&lt;amount&gt;</code></td><td>integer</td><td>Amount to be withdrawn from player's account (in cents).</td></tr>
+<tr><td><code>&lt;currency&gt;</code></td><td>string</td><td>Optional 
+parameter. Currency of amount to be withdrawn from player's account. 
+Currency has to be the same as player's currency. If currency is not 
+included, amount is in EUR.</td></tr>
+<tr><td><code>&lt;transaction_id&gt;</code></td><td>integer</td><td>Transaction identifier in WL system.</td></tr>
+<tr><td><code>&lt;tickets&gt;</code></td><td>string</td><td>XML structure that contains set of tickets, where each ticket contains following subtags:<br>
+<blockquote>
+<ul>
+<li><b>ticket_type</b><br>Type of ticket can be either single or syndicate.<br></li>
+<li><b>lottery_code</b><br>Lottery code in WL system that was sent as input parameter.<br></li>
+<li><b>num_tips</b><br>Number of tips in ticket.<br></li>
+<li><b>tips</b><br>Set of tip subtags where each contain list of numbers
+ separated by comma. If Booster ball was bet on a tip, last three 
+numbers of tip are not zeros.<br></li>
+<li><b>bb_bet</b><br>Amount of Booster ball bet for whole ticket (in 
+cents). Value 0 is set if booster ball was not bet (last three numbers 
+in all ticket's tips are zeros).<br></li>
+<li><b>num_draws</b><br>Number of draws for the ticket.<br></li>
+<li><b>draws</b><br>Set of draw subtags where each is identified by id parameter and contain corresponding draw date.<br></li>
+<li><b>recurring</b><br>Subscription flag.<br></li>
+<li><b>price</b><br>Price of ticket.<br></li>
+<li><b>currency</b>(optional)<br>Currency of ticket price. Currency has to be the same as player's currency. If currency is not included, price is in EUR.<br></li>
+</ul>
+</blockquote>
+
+</td></tr>
+<tr><td><code>&lt;voucher&gt;</code></td><td>integer</td><td>Optional 
+parameter contains amount of voucher used with payment together with 
+voucher code as attribute. Currency is the same as for amount.</td></tr>
+<tr><td><code>&lt;debit_key&gt;</code></td><td>string</td><td>Hash that 
+partner provides to authenticate payment call. It is received within 
+get_account_details call, allows partner to identify player and bond 
+between key's value and player is only known on partner's side.</td></tr>
+<tr><td><code>&lt;retrying&gt;</code></td><td>integer</td><td>Informational
+ parameter. If value is set to 1 If it is equal 1, it means that WL 
+server tries to resend request. E.g. because of the network connection 
+problems.</td></tr>
+</tbody>
+</table>
+
+<p><strong>Example of response:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;transaction_ticket_payin&lt;/call&gt;
+    &lt;token&gt;-&lt;/token&gt;
+    &lt;success&gt;1&lt;/success&gt;
+    &lt;error_code&gt;0&lt;/error_code&gt;
+    &lt;error_text&gt;&lt;/error_text&gt;
+    &lt;params&gt;
+        &lt;new_balance&gt;22670&lt;/new_balance&gt;
+        &lt;already_processed&gt;0&lt;/already_processed&gt;
+    &lt;/params&gt;
+    &lt;time&gt;1416393025&lt;/time&gt;
+    &lt;signature&gt;a37b2503a372ad7b0790b7883674c4d6&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<table>
+<tbody>
+<tr><th>Parameter</th><th>Format</th><th>Description</th></tr>
+<tr><td><code>&lt;new_balance&gt;</code></td><td>integer</td><td>New balance on logged player's account (in cents).</td></tr>
+<tr><td><code>&lt;already_processed&gt;</code></td><td>boolean</td><td>If value is set to 1, transaction was already processed.</td></tr>
+</tbody>
+</table>
+
+<p>Partner system confirms order and payment by successful response to transaction_ticket_payin call.</p>
+
+<p>To ensure offline payments for recurring tickets, no token is used.</p>
+
+<p>Use of debit key (that is bound with player on partner's side) provides necessary authorization.</p>
+
+<p>Partner system retrieves information on transaction (lottery played, tips bet, etc.) by calling <a href="#incoming.get_transaction_details">get_transaction_details</a> call with sent parameter <code>transaction_id</code>.</p>
+
+<h2><a name="outgoing.transaction_ticket_payout">Call <code>transaction_ticket_payout</code></a></h2>
+
+<p>Transaction_ticket_payout is called to deposit winnings to player's account after winning draw.</p>
+
+<p><strong>Example request:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;transaction_ticket_payout&lt;/call&gt;
+    &lt;token&gt;-&lt;/token&gt;
+    &lt;params&gt;
+        &lt;player_id&gt;382&lt;/player_id&gt;
+        &lt;amount&gt;1880&lt;/amount&gt;
+        &lt;currency&gt;eur&lt;/currency&gt;
+        &lt;ticket_id&gt;48320&lt;/ticket_id&gt;
+        &lt;transaction_id&gt;23175&lt;/transaction_id&gt;
+        &lt;draw_id&gt;348295&lt;/draw_id&gt;
+        &lt;num_winning_tips&gt;2&lt;/num_tips&gt;
+        &lt;debit_key&gt;bca3200bb903723ae18d79a5d7eb2c58&lt;/debit_key&gt;
+        &lt;tip1&gt;1,2,31,4,5,1,2,0,0,0&lt;/tip1&gt;
+        &lt;tip1_winning&gt;440&lt;/tip1_winning&gt;
+        &lt;tip1_winning_currency&gt;eur&lt;/tip1_winning_currency&gt;
+        &lt;class1_winning&gt;2+0&lt;/class1_winning&gt;
+        &lt;tip2&gt;1,2,31,4,5,1,11,0,0,0&lt;/tip1&gt;
+        &lt;tip2_winning&gt;1440&lt;/tip1_winning&gt;
+        &lt;tip2_winning_currency&gt;eur&lt;/tip2_winning_currency&gt;
+        &lt;class2_winning&gt;3+0&lt;/class1_winning&gt;
+        &lt;recurring&gt;0&lt;/recurring&gt;
+        &lt;retrying&gt;0&lt;/retrying&gt;
+        &lt;cancelled&gt;0&lt;/cancelled&gt;
+    &lt;/params&gt;
+    &lt;time&gt;1416394002&lt;/time&gt;
+    &lt;signature&gt;692cfcf03275a534107c08073a761e7a&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<table>
+<tbody>
+<tr><th>Parameter</th><th>Format</th><th>Description</th></tr>
+<tr><td><code>&lt;player_id&gt;</code></td><td>string</td><td>Identifier of player in partner system.</td></tr>
+<tr><td><code>&lt;amount&gt;</code></td><td>integer</td><td>Winning to be deposit to player's account (in cents).</td></tr>
+<tr><td><code>&lt;currency&gt;</code></td><td>string</td><td>Optional 
+parameter. Currency of deposited winning. Currency has to be the same as
+ player's currency. If currency is not included, amount is in EUR.</td></tr>
+<tr><td><code>&lt;ticket_id&gt;</code></td><td>integer</td><td>Winning ticket's identifier in WL system.</td></tr>
+<tr><td><code>&lt;transaction_id&gt;</code></td><td>integer</td><td>Transaction identifier in WL system.</td></tr>
+<tr><td><code>&lt;draw_id&gt;</code></td><td>integer</td><td>Draw identifier in WL system.</td></tr>
+<tr><td><code>&lt;num_winning_tips&gt;</code></td><td>integer</td><td>Number of winning tips in ticket.</td></tr>
+<tr><td><code>&lt;debit_key&gt;</code></td><td>string</td><td>Debit key is send within transaction_ticket_payout call to authenticate payout.</td></tr>
+<tr><td><code>&lt;tip{N}&gt;</code></td><td>list of integers</td><td>List
+ of numbers of N-th tip divided by comma. In list, basic numbers (5 or 
+6) are followed by star numbers (1 or 2) and 3 booster ball numbers.</td></tr>
+<tr><td><code>&lt;tip{N}_winning&gt;</code></td><td>integer</td><td>Winning of N-th tip in the ticket (in cents). Non-winning tips are not shown.</td></tr>
+<tr><td><code>&lt;tip{N}_winning_currency&gt;</code>(optional)</td><td>integer</td><td>Currency of winning. If currency is not included, winning is in EUR.</td></tr>
+<tr><td><code>&lt;class{N}_winning&gt;</code></td><td>integer</td><td>Winning class of N-th tip in the ticket. If ticket won booster ball bet, class will contain value "bb".</td></tr>
+<tr><td><code>&lt;recurring&gt;</code></td><td>integer</td><td>If value is set to 1, it means that subscription was bought with the ticket.</td></tr>
+<tr><td><code>&lt;retrying&gt;</code></td><td>integer</td><td>Informational
+ parameter. If value is set to 1, it means that WL server tries to 
+resend request. E.g. because of the network connection problems.</td></tr>
+<tr><td><code>&lt;cancelled&gt;</code></td><td>integer</td><td>Informational parameter. If value is set to 1, it means that payout was cancelled.</td></tr>
+</tbody>
+</table>
+
+<p>Call is performed offline (character - is used instead of token) from
+ WL system's backend after lottery draw has finished and winnings are 
+ready to be payed.</p>
+
+
+<p><strong>Example of response:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;transaction_ticket_payout&lt;/call&gt;
+    &lt;token&gt;-&lt;/token&gt;
+    &lt;success&gt;1&lt;/success&gt;
+    &lt;error_code&gt;0&lt;/error_code&gt;
+    &lt;error_text&gt;&lt;/error_text&gt;
+    &lt;params&gt;
+        &lt;new_balance&gt;22670&lt;/new_balance&gt;
+        &lt;already_processed&gt;0&lt;/already_processed&gt;
+    &lt;/params&gt;
+    &lt;time&gt;1416393025&lt;/time&gt;
+    &lt;signature&gt;c3b233d2e94b7669570308bd7e858a5e&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<table>
+<tbody>
+<tr><th>Parameter</th><th>Format</th><th>Description</th></tr>
+<tr><td><code>&lt;new_balance&gt;</code></td><td>integer</td><td>New balance on player's account (in cents).</td></tr>
+<tr><td><code>&lt;already_processed&gt;</code></td><td>boolean</td><td>If value is set to 1, transaction was already processed.</td></tr>
+</tbody>
+</table>
+
+<h2><a name="outgoing.transaction_ticket_refund">Call <code>transaction_ticket_refund</code></a></h2>
+
+<p>Transaction_ticket_refund is called to refund money to player's account for cancelled ticket/draw combination.</p>
+
+<p><strong>Example request:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;transaction_ticket_refund&lt;/call&gt;
+    &lt;token&gt;-&lt;/token&gt;
+    &lt;params&gt;
+        &lt;player_id&gt;382&lt;/player_id&gt;
+        &lt;amount&gt;1880&lt;/amount&gt;
+        &lt;currency&gt;eur&lt;/currency&gt;
+        &lt;ticket_id&gt;48320&lt;/ticket_id&gt;
+        &lt;draw_id&gt;348295&lt;/draw_id&gt;
+        &lt;transaction_id&gt;23175&lt;/transaction_id&gt;
+        &lt;debit_key&gt;bca3200bb903723ae18d79a5d7eb2c58&lt;/debit_key&gt;
+        &lt;retrying&gt;0&lt;/retrying&gt;
+    &lt;/params&gt;
+    &lt;time&gt;1416394007&lt;/time&gt;
+    &lt;signature&gt;692cfcf03275a534107c08073a761e7a&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<table>
+<tbody>
+<tr><th>Parameter</th><th>Format</th><th>Description</th></tr>
+<tr><td><code>&lt;player_id&gt;</code></td><td>string</td><td>Identifier of player in partner system.</td></tr>
+<tr><td><code>&lt;amount&gt;</code></td><td>integer</td><td>Amount to be refunded to player's account (in cents).</td></tr>
+<tr><td><code>&lt;currency&gt;</code></td><td>string</td><td>Optional 
+parameter. Currency of refunded amount. Currency has to be the same as 
+player's currency. If currency is not included, amount is in EUR.</td></tr>
+<tr><td><code>&lt;ticket_id&gt;</code></td><td>integer</td><td>Ticket's identifier in WL system.</td></tr>
+<tr><td><code>&lt;draw_id&gt;</code></td><td>integer</td><td>Draw identifier in WL system.</td></tr>
+<tr><td><code>&lt;transaction_id&gt;</code></td><td>integer</td><td>Refund transaction identifier in WL system.</td></tr>
+<tr><td><code>&lt;debit_key&gt;</code></td><td>string</td><td>Debit key is send within transaction_ticket_refund call to authenticate refund.</td></tr>
+<tr><td><code>&lt;retrying&gt;</code></td><td>integer</td><td>Informational
+ parameter. If value is set to 1, it means that WL server tries to 
+resend request. E.g. because of the network connection problems.</td></tr>
+</tbody>
+</table>
+
+<p>Call is performed offline (character - is used instead of token) from WL system's backend in case refund is needed.</p>
+
+<p><strong>Example of response:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;transaction_ticket_refund&lt;/call&gt;
+    &lt;token&gt;-&lt;/token&gt;
+    &lt;success&gt;1&lt;/success&gt;
+    &lt;error_code&gt;0&lt;/error_code&gt;
+    &lt;error_text&gt;&lt;/error_text&gt;
+    &lt;params&gt;
+        &lt;new_balance&gt;22670&lt;/new_balance&gt;
+        &lt;already_processed&gt;0&lt;/already_processed&gt;
+    &lt;/params&gt;
+    &lt;time&gt;1416393025&lt;/time&gt;
+    &lt;signature&gt;c3b233d2e94b7669570308bd7e858a5e&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<table>
+<tbody>
+<tr><th>Parameter</th><th>Format</th><th>Description</th></tr>
+<tr><td><code>&lt;new_balance&gt;</code></td><td>integer</td><td>New balance on player's account (in cents).</td></tr>
+<tr><td><code>&lt;already_processed&gt;</code></td><td>boolean</td><td>If value is set to 1, refund was already processed.</td></tr>
+</tbody>
+</table>
+
+<p>This call refunds for one ticket_id/draw_id combination only.</p>
+<p>If draw for specific lottery is cancelled, money will be refunded via
+ this call to all players that have tickets participating in this draw.</p>
+<p>Call can be used for cancelling one specific ticket that participates in multiple draws, by refunding for each draw separately.</p>
+
+<h2><a name="outgoing.transaction_winning_rollback">Call <code>transaction_winning_rollback</code></a></h2>
+
+<p>Transaction_payout_rollback is called to rollback paid out winning and to retract money from player's account.</p>
+
+<p><strong>Example request:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;transaction_winning_rollback&lt;/call&gt;
+    &lt;token&gt;-&lt;/token&gt;
+    &lt;params&gt;
+        &lt;player_id&gt;382&lt;/player_id&gt;
+        &lt;transaction_id&gt;23175&lt;/transaction_id&gt;
+        &lt;payout_transaction_id&gt;23170&lt;/payout_transaction_id&gt;
+        &lt;amount&gt;1880&lt;/amount&gt;
+        &lt;currency&gt;eur&lt;/currency&gt;
+        &lt;ticket_id&gt;48320&lt;/ticket_id&gt;
+        &lt;draw_id&gt;348295&lt;/draw_id&gt;
+        &lt;debit_key&gt;bca3200bb903723ae18d79a5d7eb2c58&lt;/debit_key&gt;
+        &lt;retrying&gt;0&lt;/retrying&gt;
+    &lt;/params&gt;
+    &lt;time&gt;1416394007&lt;/time&gt;
+    &lt;signature&gt;692cfcf03275a534107c08073a761e7a&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<table>
+<tbody>
+<tr><th>Parameter</th><th>Format</th><th>Description</th></tr>
+<tr><td><code>&lt;player_id&gt;</code></td><td>string</td><td>Identifier of player in partner system.</td></tr>
+<tr><td><code>&lt;transaction_id&gt;</code></td><td>integer</td><td>Rollback transaction identifier in WL system.</td></tr>
+<tr><td><code>&lt;payout_transaction_id&gt;</code></td><td>integer</td><td>Payout transaction identifier in WL system. Has to be same as in winning payout call.</td></tr>
+<tr><td><code>&lt;amount&gt;</code></td><td>integer</td><td>Winning amount to be rollbacked from player's account (in cents). Has to be same as in winning payout call.</td></tr>
+<tr><td><code>&lt;currency&gt;</code></td><td>string</td><td>Optional 
+parameter. Currency of rollbacked winning amount. Currency has to be the
+ same as player's currency. If currency is not included, amount is in 
+EUR. Has to be same as in winning payout call.</td></tr>
+<tr><td><code>&lt;ticket_id&gt;</code></td><td>integer</td><td>Ticket's identifier in WL system. Has to be same as in winning payout call.</td></tr>
+<tr><td><code>&lt;draw_id&gt;</code></td><td>integer</td><td>Draw identifier in WL system. Has to be same as in winning payout call.</td></tr>
+<tr><td><code>&lt;debit_key&gt;</code></td><td>string</td><td>Debit key is send within transaction_winning_rollback call to authenticate rollback.</td></tr>
+<tr><td><code>&lt;retrying&gt;</code></td><td>integer</td><td>Informational
+ parameter. If value is set to 1, it means that WL server tries to 
+resend request. E.g. because of the network connection problems.</td></tr>
+</tbody>
+</table>
+
+<p>Call is performed offline (character - is used instead of token) from
+ WL system's backend in case rollback of winning transaction is needed.</p>
+
+<p><strong>Example of response:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;transaction_winning_rollback&lt;/call&gt;
+    &lt;token&gt;-&lt;/token&gt;
+    &lt;success&gt;1&lt;/success&gt;
+    &lt;error_code&gt;0&lt;/error_code&gt;
+    &lt;error_text&gt;&lt;/error_text&gt;
+    &lt;params&gt;
+        &lt;new_balance&gt;22670&lt;/new_balance&gt;
+        &lt;already_processed&gt;0&lt;/already_processed&gt;
+    &lt;/params&gt;
+    &lt;time&gt;1416393025&lt;/time&gt;
+    &lt;signature&gt;c3b233d2e94b7669570308bd7e858a5e&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<table>
+<tbody>
+<tr><th>Parameter</th><th>Format</th><th>Description</th></tr>
+<tr><td><code>&lt;new_balance&gt;</code></td><td>integer</td><td>New balance on player's account (in cents).</td></tr>
+<tr><td><code>&lt;already_processed&gt;</code></td><td>boolean</td><td>If value is set to 1, transaction was already rollbacked.</td></tr>
+</tbody>
+</table>
+
+<p>Call is triggered manually from WL side.</p>
+
+
+<h2><a name="outgoing.transaction_bonus_payout">Call <code>transaction_bonus_payout</code></a></h2>
+
+<p>Transaction_bonus_payout is called to deposit bonus to player's 
+account. Player's entitlement to a bonus is evaluated after a draw.</p>
+
+<p><strong>Example request:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;transaction_bonus_payout&lt;/call&gt;
+    &lt;token&gt;-&lt;/token&gt;
+    &lt;params&gt;
+        &lt;player_id&gt;382&lt;/player_id&gt;
+        &lt;debit_key&gt;bca3200bb903723ae18d79a5d7eb2c58&lt;/debit_key&gt;
+        &lt;bonus_id&gt;45671&lt;/bonus_id&gt;
+        &lt;bonus_amount&gt;1880&lt;/bonus_amount&gt;
+        &lt;bonus_currency&gt;eur&lt;/bonus_currency&gt;
+        &lt;bonus_type&gt;1&lt;/bonus_type&gt;
+        &lt;ticket_id&gt;48320&lt;/ticket_id&gt;
+        &lt;retrying&gt;0&lt;/retrying&gt;
+        &lt;cancelled&gt;0&lt;/cancelled&gt;
+    &lt;/params&gt;
+    &lt;time&gt;1416394002&lt;/time&gt;
+    &lt;signature&gt;692cfcf03275a534107c08073a761e7a&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<table>
+<tbody>
+<tr><th>Parameter</th><th>Format</th><th>Description</th></tr>
+<tr><td><code>&lt;player_id&gt;</code></td><td>string</td><td>Identifier of player in partner system.</td></tr>
+<tr><td><code>&lt;debit_key&gt;</code></td><td>string</td><td>Debit key is send within transaction_ticket_payout call to authenticate payout.</td></tr>
+<tr><td><code>&lt;bonus_id&gt;</code></td><td>integer</td><td>Unique identifier of a bonus transaction.</td></tr>
+<tr><td><code>&lt;bonus_amount&gt;</code></td><td>integer</td><td>Bonus amount to be awarded to player (in cents).</td></tr>
+<tr><td><code>&lt;bonus_currency&gt;</code></td><td>string</td><td>Optional
+ parameter. Currency of awarded bonus amount. Currency has to be the 
+same as player's currency. If currency is not included, bonus amount is 
+in EUR.</td></tr>
+<tr><td><code>&lt;bonus_type&gt;</code></td><td>integer</td><td>Identifier of bonus type (e.g. 1 represents Welcome bonus)</td></tr>
+<tr><td><code>&lt;ticket_id&gt;</code></td><td>integer</td><td>Ticket id, related to bonus (optional).</td></tr>
+<tr><td><code>&lt;retrying&gt;</code></td><td>integer</td><td>Informational
+ parameter. If value is set to 1, it means that WL server tries to 
+resend request. E.g. because of the network connection problems.</td></tr>
+<tr><td><code>&lt;cancelled&gt;</code></td><td>integer</td><td>Informational parameter. If value is set to 1, it means that payout was cancelled.</td></tr>
+</tbody>
+</table>
+
+<p>Call is performed offline (character - is used instead of token) from
+ WL system's backend after lottery draw has finished and player was 
+found to be entitled to a bonus.</p>
+
+<p><strong>Example of response:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;transaction_bonus_payout&lt;/call&gt;
+    &lt;token&gt;-&lt;/token&gt;
+    &lt;success&gt;1&lt;/success&gt;
+    &lt;error_code&gt;0&lt;/error_code&gt;
+    &lt;error_text&gt;&lt;/error_text&gt;
+    &lt;params&gt;
+        &lt;new_balance&gt;1670&lt;/new_balance&gt;
+        &lt;already_processed&gt;0&lt;/already_processed&gt;
+    &lt;/params&gt;
+    &lt;time&gt;1416393025&lt;/time&gt;
+    &lt;signature&gt;c3b233d2e94b7669570308bd7e858a5e&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<table>
+<tbody>
+<tr><th>Parameter</th><th>Format</th><th>Description</th></tr>
+<tr><td><code>&lt;new_balance&gt;</code></td><td>integer</td><td>New balance on player's account (in cents).</td></tr>
+<tr><td><code>&lt;already_processed&gt;</code></td><td>boolean</td><td>If value is set to 1, transaction was already processed.</td></tr>
+</tbody>
+</table>
+
+<p><b>Important: Due to anti-money-laundering policy it is required not to allow player to withdraw any of awarded bonuses!</b></p>
+
+<h2><a name="outgoing.draw_finished_notify">Call <code>draw_finished_notify</code></a></h2>
+
+<p>Draw_finished_notify</p>
+
+<p><strong>Example request:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;draw_finished_notify&lt;/call&gt;
+    &lt;token&gt;-&lt;/token&gt;
+    &lt;params&gt;
+        &lt;draw_id&gt;348295&lt;/draw_id&gt;
+        &lt;lottery_code&gt;em&lt;/lottery_code&gt;
+    &lt;/params&gt;
+    &lt;time&gt;1416394001&lt;/time&gt;
+    &lt;signature&gt;d9228acf9b666d5660ea6e51ab770588&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<table>
+<tbody>
+<tr><th>Parameter</th><th>Format</th><th>Description</th></tr>
+<tr><td><code>&lt;draw_id&gt;</code></td><td>integer</td><td>Draw identifier (for specific lottery at specific date) in WL system.</td></tr>
+<tr><td><code>&lt;lottery_code&gt;</code></td><td>string</td><td>Code of lottery to which the draw belongs.</td></tr>
+</tbody>
+</table>
+
+<p>Call is performed offline (character - is used instead of token) from
+ WL system's backend after lottery draw has finished and transaction 
+payouts are available.</p>
+
+<p>Call should always return success to confirm information on finished 
+draw was accepted. Fact that draw is not known to partner's system 
+because no tickets were sold for this draw has no relevance and success 
+should still be returned.</p>
+
+<p><strong>Example of response:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;draw_finished_notify&lt;/call&gt;
+    &lt;token&gt;-&lt;/token&gt;
+    &lt;success&gt;1&lt;/success&gt;
+    &lt;error_code&gt;0&lt;/error_code&gt;
+    &lt;error_text&gt;&lt;/error_text&gt;
+    &lt;params&gt;&lt;/params&gt;
+    &lt;time&gt;1416394002&lt;/time&gt;
+    &lt;signature&gt;8717b060ad82faff646a580b4251f2a4&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<p>Partner system should use returned parameter draw_id in subsequent <a href="#incoming.get_payout_transactions">get_payout_transactions</a> call.</p>
+
+<h2><a name="outgoing.subscription_renewal_failure">Call <code>subscription_renewal_failure</code></a></h2>
+
+<p>Subscription_renewal_failure call is performed after subscription 
+renewal has failed. If it was first failure, system will try one more 
+time, if it was second failure, subscription will be cancelled. <b>NOT IMPLEMENTED ON PARTNER'S SIDE</b></p>
+
+<p><strong>Example request:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;subscription_renewal_failure&lt;/call&gt;
+    &lt;token&gt;-&lt;/token&gt;
+    &lt;params&gt;
+        &lt;renewal_attempt&gt;1&lt;/renewal_attempt&gt;
+        &lt;tickets&gt;
+            &lt;ticket&gt;
+                &lt;ticket_id&gt;48320&lt;/ticket_id&gt;
+                &lt;ticket_type&gt;single&lt;/ticket_type&gt;
+                &lt;ticket_time&gt;1414832422&lt;/ticket_time&gt;
+                &lt;lottery_code&gt;em&lt;/lottery_code&gt;
+                &lt;num_tips&gt;2&lt;/num_tips&gt;
+                &lt;tips&gt;
+                    &lt;tip&gt;1,2,3,4,5,1,2,0,0,0&lt;/tip&gt;
+                    &lt;tip&gt;11,12,13,14,15,3,4,11,12,13&lt;/tip&gt;
+                &lt;/tips&gt;
+                &lt;bb_bet&gt;100&lt;/bb_bet&gt;
+                &lt;num_draws&gt;2&lt;/num_draws&gt;
+                &lt;recurring&gt;1&lt;/recurring&gt;
+                &lt;price&gt;500&lt;/price&gt;
+                &lt;currency&gt;eur&lt;/currency&gt;
+            &lt;/ticket&gt;
+            &lt;ticket&gt;
+                &lt;ticket_id&gt;48321&lt;/ticket_id&gt;
+                &lt;ticket_type&gt;single&lt;/ticket_type&gt;
+                &lt;ticket_time&gt;1414832422&lt;/ticket_time&gt;
+                &lt;lottery_code&gt;ej&lt;/lottery_code&gt;
+                &lt;num_tips&gt;1&lt;/num_tips&gt;
+                &lt;tips&gt;
+                    &lt;tip&gt;21,22,23,24,25,1,2,0,0,0&lt;/tip&gt;
+                &lt;/tips&gt;
+                &lt;bb_bet&gt;0&lt;/bb_bet&gt;
+                &lt;num_draws&gt;1&lt;/num_draws&gt;
+                &lt;recurring&gt;1&lt;/recurring&gt;
+                &lt;price&gt;500&lt;/price&gt;
+                &lt;currency&gt;eur&lt;/currency&gt;
+            &lt;/ticket&gt;
+            &lt;ticket&gt;
+                &lt;ticket_id&gt;48322&lt;/ticket_id&gt;
+                &lt;ticket_type&gt;syndicate&lt;/ticket_type&gt;
+                &lt;ticket_time&gt;1414832422&lt;/ticket_time&gt;
+                &lt;lottery_code&gt;syn_vw&lt;/lottery_code&gt;
+                &lt;num_tips&gt;530&lt;/num_tips&gt;
+                &lt;base_tip&gt;21,22,23,24,25,44,0&lt;/base_tip&gt;
+                &lt;num_periods&gt;4&lt;/num_periods&gt;
+                &lt;num_draws&gt;48&lt;/num_draws&gt;
+                &lt;recurring&gt;1&lt;/recurring&gt;
+                &lt;price&gt;6360&lt;/price&gt;
+                &lt;currency&gt;eur&lt;/currency&gt;
+            &lt;/ticket&gt;
+        &lt;/tickets&gt;
+        &lt;player_id&gt;1&lt;/player_id&gt;
+    &lt;/params&gt;
+    &lt;time&gt;1416394001&lt;/time&gt;
+    &lt;signature&gt;c9228acf9b619a5660ea6e51ab770588&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<table>
+<tbody>
+<tr><th>Parameter</th><th>Format</th><th>Description</th></tr>
+<tr><td><code>&lt;renewal_attempt&gt;</code></td><td>integer</td><td>Information whether 1st or 2nd renewal attempt has failed. Possible values 1 or 2.</td></tr>
+<tr><td><code>&lt;tickets&gt;</code></td><td>string</td><td>XML structure that contains set of subscribed tickets, where each ticket contains following subtags:<br>
+<blockquote>
+<ul>
+<li><b>ticket_id</b><br>Identifier of ticket in WL system.<br></li>
+<li><b>ticket_type</b><br>Type of ticket can be either single or syndicate.<br></li>
+<li><b>ticket_time</b><br>UNIX timestamp of ticket purchase. <!-- Parameters timezone and utc_offset specify timezone of the timestamp. --><br></li>
+<li><b>lottery_code</b><br>Lottery code in WL system that was sent as input parameter.<br></li>
+<li><b>num_tips</b><br>Number of tips in ticket.<br></li>
+<li><b>tips</b><br>Set of tip subtags where each contain list of numbers
+ separated by comma. If Booster ball was bet on a tip, last three 
+numbers of tip are not zeros.<br></li>
+<li><b>bb_bet</b><br>Amount of Booster ball bet for whole ticket (in 
+cents). Value 0 is set if booster ball was not bet (last three numbers 
+in all ticket's tips are zeros).<br></li>
+<li><b>num_draws</b><br>Number of draws for the ticket.<br></li>
+<li><b>recurring</b><br>Subscription flag.<br></li>
+<li><b>price</b><br>Price of ticket.<br></li>
+<li><b>currency</b>(optional)<br>Currency of ticket price. Currency has to be the same as player's currency. If currency is not included, price is in EUR.<br></li>
+</ul>
+</blockquote>
+
+</td></tr>
+<tr><td><code>&lt;player_id&gt;</code></td><td>string</td><td>Identifier of player in partner system.</td></tr>
+</tbody>
+</table>
+
+<p>Call is performed offline (character - is used instead of token) from WL system's backend after failed subscription renewal.</p>
+
+<p>Call should always return success to confirm information on failed subscription renewal was accepted.</p>
+
+<p><strong>Example of response:</strong></p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;root&gt;
+    &lt;call&gt;subscription_renewal_failure&lt;/call&gt;
+    &lt;token&gt;-&lt;/token&gt;
+    &lt;success&gt;1&lt;/success&gt;
+    &lt;error_code&gt;0&lt;/error_code&gt;
+    &lt;error_text&gt;&lt;/error_text&gt;
+    &lt;params&gt;&lt;/params&gt;
+    &lt;time&gt;1416394002&lt;/time&gt;
+    &lt;signature&gt;8717b060ad82faff646a580b4251f2a4&lt;/signature&gt;
+&lt;/root&gt;
+</pre>
+
+<p>After receiving this call, partner system should email player a 
+notification on failed renewal (after 1st failure) or cancelled 
+subscription (after 2nd failure).</p>
+
+<h2><a name="scenarios"></a>System interaction scenarios</h2>
+
+<p>This section describes interaction between WL and partner systems in various scenarios.</p>
+
+<p><b>Initiation</b></p>
+
+<ol>
+<li>Iframe with WL's initial URL is rendered in partner webpage via JS supplied by WL (see <a href="#init">Initiating the Iframe</a>).</li>
+<li>If token supplied by partner is different from '-' (player is logged), WL obtains information on logged player (<a href="#outgoing.get_account_details">get_account_details</a> call) and his balance (<a href="#outgoing.get_balance">get_balance</a> call).</li>
+<li>If player is logged, WL shows private home page (including player's name and balance) otherwise WL shows public home page.</li>
+<li>WL will show other than home page if specified by parameter in initial URL.</li>
+</ol>
+
+<p><b>Pinging</b></p>
+
+<ol>
+<li>Partner calls <a href="#incoming.ping">ping</a> via WL API URL.</li>
+<li>WL responds to ping request.</li>
+<li>If response is positive, partner system acknowledges that WL system is working and responding via API interface.</li>
+<li>If response is negative, partner system acknowledges the unavailability of WL system and keeps pinging WL system.</li>
+</ol>
+
+<p><b>Purchase</b></p>
+
+<ol>
+<li>Player clicks on cart check-out in WL webpage.</li>
+<li>If check-out was initiated on public pages (without player being logged in), WL will call partner's login URL.</li>
+<li>After successful login in partner website, WL webpage in iframe will be initiated again and payment process will continue.</li>
+<li>WL checks whether player's balance is sufficient to cover purchase.</li>
+<li>If player does not have sufficient funds, WL will call partner's deposit URL.</li>
+<li>After player's deposit of additional funds, WL webpage in iframe will be initiated again and payment process will continue.</li>
+
+<li>WL will proceed with payin (<a href="#outgoing.transaction_ticket_payin">transaction_ticket_payin</a> call) to partner with total amount of order and debit_key.</li>
+<li>Partner checks <br>
+&nbsp;&nbsp;&nbsp;- whether sent debit_key is bound with player that pays for the order<br>
+&nbsp;&nbsp;&nbsp;- whether player's balance can cover amount of order and confirms the order by sending successful reply. <b>At this point the order is done.</b></li>
+<li>Based on partner's positive reply WL will create tickets in the system. 
+</li><li>After agreed delay (2-5 seconds) partner will ask for details on purchased order via calling  <a href="#incoming.get_transaction_details">get_transaction_details</a> call. 
+</li><li>If transaction_ticket_payin call is returned with error payment will fail.
+</li><li>If answer to transaction_ticket_payin call won't be received, 
+WL will repeat the call 3 times (with 1 second wait between attempts) 
+and then it calls partner's error URL (with agreed error code).</li>
+</ol>
+
+<p><b>Token refreshing</b></p>
+
+<ol>
+<li>In case of user's inactivity WL calls <a href="#outgoing.refresh_token">refresh_token</a> (in 5 minutes interval) to avoid token expiration.</li>
+<li>Partner system responds to refresh_token request.</li>
+<li>If response is positive, WL system refreshes its own session.</li>
+<li>If response is negative, WL system reloads page with new token. Potentially it could also call <a href="#outgoing.request_new_token">request_new_token</a> (depends on agreement upon implementation).</li>
+</ol>
+
+<p><b>Winning/bonus payout (offline - calls are performed in backend and not within logged player's window context)</b></p>
+
+<ol>
+<li>After results of lottery's draw are available in WL system, WL will inform about winnings (via <a href="#outgoing.transaction_ticket_payout">transaction_ticket_payout</a> call) to all partner's players with winning tickets.</li>
+<li>WL system will also inform on awarding a bonus (via <a href="#outgoing.transaction_bonus_payout">transaction_bonus_payout</a> call) for each entitled player.</li>
+<li>If winning or bonus payout call failed (invalid token, invalid 
+signature, request not responded), WL will repeat the call 3 times (with
+ 1 second wait between attempts) and then it calls partner's error URL 
+(with agreed error code). 
+<br><span style="font-style:italic;">Optional - If calling error URL 
+fails (system is down on partner side) failed call event is stored 
+on 3rd party/backup server (depends on agreement upon implementation).</span></li>
+</ol>
+
+<p><b>Draw completion (offline)</b></p>
+
+<ol>
+<li>WL will notify (via <a href="#outgoing.draw_finished_notify">draw_finished_notify</a> call) partner system that draw (for specific lottery at specific date) was finished and data in WL are ready for download.</li>
+<li>Partner system will download (via <a href="#incoming.get_payout_transactions">get_payout_transactions</a> call) set of all transaction payouts (both winning and non-winning) for corresponding draw.</li>
+<li>Partner system will download (via <a href="#incoming.get_draw_results">get_draw_results</a> call) results for corresponding draw.</li>
+<li>If draw_finished_notify call failed (invalid token, invalid 
+signature, request not responded), WL will repeat the call 3 times (with
+ 1 second wait between attempts) and then it calls partner's error URL 
+(with agreed error code).
+<br><span style="font-style:italic;">Optional - If calling error URL 
+fails (system is down on partner side) failed call event is stored 
+on 3rd party/backup server (depends on agreement upon implementation).</span></li>
+</ol>
+
+<p><b>Subscription renewal failure (offline)</b></p>
+
+<ol>
+<li>In case charge attempt for next subscription period has failed for the first time, WL will notify (via <a href="#outgoing.subscription_renewal_failed">subscription_renewal_failed</a> call) partner system about it.</li>
+<li>Partner system will notify and warn the player that subscription 
+will be cancelled if second attempt (planned for next day) will fail as 
+well.</li>
+<li>If second attempt fails as well, WL will cancel the subscription and
+ notify partner system about it again via subscription_renewal_failed 
+call.</li>
+<li>Partner system will notify player about cancelled subscription. 
+Player can re-activate cancelled subscription via link in ticket detail 
+page.</li>
+</ol>
+
+<h2><a name="appendix"></a>Appendix</h2>
+
+<p><b>Integration URLs</b></p>
+
+<p>Table below contains list of URLs that need to be agreed on both WL and parent side before integration.</p>
+
+<table>
+<tbody>
+<tr><th>URL</th><th>System</th><th>Description</th></tr>
+<tr><td>WL API URL</td><td>WL</td><td>Listening URL of WL system, which is used to accept requests and responses from partner system.</td></tr>
+<tr><td>Init URL</td><td>WL</td><td>Initial WL URL that is open in iframe rendered in partner webpage.</td></tr>
+<tr><td>Partner&nbsp;API&nbsp;URL</td><td>Partner</td><td>Listening URL of partner system, which is used to accept requests and responses from WL system.</td></tr>
+<tr><td>Login URL</td><td>Partner</td><td>URL called by WL webpage in case authorization from partner's player is needed. Callback parameter will be supplied.</td></tr>
+<tr><td>Deposit URL</td><td>Partner</td><td>URL called by WL webpage in 
+case deposit of additional funds from partner's player is needed. 
+Callback parameter will be supplied.</td></tr>
+<tr><td>Error URL</td><td>Partner</td><td>URL called by WL page in case of showstopping issue. Error code as parameter will be supplied.</td></tr>
+</tbody>
+</table>
+<br>
+
+<p><b>Error codes</b></p>
+
+<p>Table of error codes used in responses to API calls.</p>
+
+<table>
+<tbody>
+<tr><th>API call</th><th>Error&nbsp;code</th><th>Error status</th><th>Description</th></tr>
+<tr><td>general</td><td style="text-align:center;">1</td><td>ERROR_INVALID_SIGNATURE</td><td>Invalid security signature.</td></tr>
+<tr><td>general</td><td style="text-align:center;">2</td><td>ERROR_EXPIRED_REQUEST</td><td>Time from request creation till its validation exceeded 60 seconds.</td></tr>
+<tr><td>general</td><td style="text-align:center;">5</td><td>ERROR_INVALID_FUNCTION</td><td>Incorrect call.</td></tr>
+<tr><td>general</td><td style="text-align:center;">6</td><td>ERROR_INVALID_PARAMETER</td><td>Missing/incorrect parameter &lt;parameter&gt; in parameters list.</td></tr>
+<tr><td>general</td><td style="text-align:center;">7</td><td>ERROR_INVALID_PARAMETER_VALUE</td><td>Incorrect/unexpected value of a valid parameter.</td></tr>
+<tr><td>general</td><td style="text-align:center;">9</td><td>ERROR_EXPIRED_TOKEN</td><td>Used token has expired.</td></tr>
+<tr><td>general</td><td style="text-align:center;">10</td><td>ERROR_SYSTEM_UNAVAILABLE</td><td>System not responding.</td></tr>
+
+<tr><td><code>&lt;ping&gt;</code></td><td style="text-align:center;">11</td><td>ERROR_SYSTEM_UNDER_MAINTENANCE</td><td>System unavailable due to maintenance activities.</td></tr>
+<tr><td><code>&lt;ping&gt;</code></td><td style="text-align:center;">12</td><td>ERROR_SYSTEM_OVERLOADED</td><td>System unavailable due to resources overload.</td></tr>
+
+<tr><td><code>&lt;refresh_token&gt;</code></td><td style="text-align:center;">8</td><td>ERROR_INVALID_TOKEN</td><td>Used token is incorrect/unknown.</td></tr>
+
+<tr><td><code>&lt;get_transaction_details&gt;</code><br><code>&lt;get_balance&gt;</code></td><td style="text-align:center;">15</td><td>SYSTEM_UNAUTHORIZED_PLAYER</td><td>Authorized player ID is incorrect.</td></tr>
+<tr><td><code>&lt;transaction_ticket_payout&gt;</code></td><td style="text-align:center;">16</td><td>SYSTEM_UNKNOWN_PLAYER</td><td>Unknown player ID used.</td></tr>
+<tr><td><code>&lt;transaction_ticket_payin&gt;</code></td><td style="text-align:center;">17</td><td>ERROR_INSUFFICIENT_FUNDS</td><td>Insufficient funds on player's balance to cover the purchase.</td></tr>
+<tr><td><code>&lt;transaction_ticket_payin&gt;</code><br>
+        <code>&lt;transaction_ticket_payout&gt;</code><br>
+        <code>&lt;transaction_bonus_payout&gt;</code></td><td style="text-align:center;">18</td><td>ERROR_UNAUTHORIZED_PAYMENT</td><td>Invalid debit key used for payment/payout authorization.</td></tr>
+<tr><td><code>&lt;transaction_ticket_payin&gt;</code></td><td style="text-align:center;">19</td><td>ERROR_BET_LIMIT_REACHED</td><td>Purchase not possible due to player's bet limit being reached.</td></tr>
+
+<tr><td>general</td><td style="text-align:center;">99</td><td>ERROR_GENERAL</td><td>General error.</td></tr>
+</tbody>
+</table>
+
+<br>
+
+<p><b>Lottery codes</b></p>
+
+<p>Table below contains list of codes for single and syndicate lotteries.</p>
+
+<table>
+<tbody>
+<tr><th>Lottery name</th><th>Lottery code</th><th>Type</th></tr>
+<tr><td>EuroMillions</td><td style="text-align:center;">em</td><td>single</td></tr>
+<tr><td>EuroJackpot</td><td style="text-align:center;">ej</td><td>single</td></tr>
+<tr><td>MegaMillions</td><td style="text-align:center;">mm</td><td>single</td></tr>
+<tr><td>Powerball</td><td style="text-align:center;">pb</td><td>single</td></tr>
+<tr><td>SuperEnaLotto</td><td style="text-align:center;">se</td><td>single</td></tr>
+<tr><td>Lotto 6/49</td><td style="text-align:center;">de</td><td>single</td></tr>
+<tr><td>Dinolotto</td><td style="text-align:center;">dl</td><td>single</td></tr>
+<tr><td>Euro Combi</td><td style="text-align:center;">syn_ec</td><td>syndicate</td></tr>
+<tr><td>US Combi</td><td style="text-align:center;">syn_uc</td><td>syndicate</td></tr>
+<tr><td>VIP World</td><td style="text-align:center;">syn_vw</td><td>syndicate</td></tr>
+</tbody>
+</table>
+
+<br>
+<br>
+
+</div>
+
+</body></html>
